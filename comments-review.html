@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kalos Dwellings · Comment review</title>
+<meta name="theme-color" content="#efede9">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="comments.css">
+<style>
+  .kc-hub{
+    min-height:100svh;padding:48px 6% 80px;
+    background:
+      radial-gradient(circle at 88% 10%, #e8d9b655 0%, transparent 40%),
+      linear-gradient(165deg,#f7f4ee 0%,#efede9 46%,#e5dfd3 100%);
+    color:var(--ink);
+  }
+  .kc-hub-inner{max-width:920px;margin:0 auto}
+  .kc-hub .eyebrow{display:block;margin-bottom:14px;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:#8b6c24}
+  .kc-hub h1{font-size:clamp(28px,4.5vw,48px);letter-spacing:2px;margin:0 0 12px;text-transform:uppercase}
+  .kc-hub .lead{max-width:58ch;font-size:15px;line-height:1.8;color:var(--muted);margin:0 0 28px}
+  .kc-hub-actions{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+  .kc-hub-actions .kc-btn{pointer-events:auto}
+  .kc-hub-list{display:grid;gap:12px}
+  .kc-hub-card{
+    display:grid;gap:8px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;
+    background:#faf8f4cc;text-decoration:none;color:inherit;
+  }
+  .kc-hub-card:hover{border-color:#c2a354;background:#fff}
+  .kc-hub-card.is-resolved{opacity:.55}
+  .kc-hub-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+  .kc-hub-card strong{font-weight:500;font-size:15px;line-height:1.5;white-space:pre-wrap}
+  .kc-hub-page{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#8b6c24}
+  .kc-hub-empty{padding:40px 10px;color:var(--muted);font-size:14px;line-height:1.7}
+  .kc-hub-note{margin-top:28px;font-size:12px;color:var(--muted);line-height:1.7;max-width:62ch}
+</style>
+</head>
+<body>
+<main class="kc-hub">
+  <div class="kc-hub-inner">
+    <span class="eyebrow">Kalos Dwellings · V2</span>
+    <h1>Comment review</h1>
+    <p class="lead">All review comments saved in this browser. Open any item to jump to that page with the pin highlighted. When we publish shared storage later, this same hub can show everyone’s notes.</p>
+    <div class="kc-hub-actions">
+      <a class="kc-btn" href="v2.html">V2 guide</a>
+      <a class="kc-btn" href="index.html">Homepage</a>
+      <button type="button" class="kc-btn" id="exportBtn">Export JSON</button>
+      <button type="button" class="kc-btn danger" id="clearBtn">Clear all</button>
+      <label class="kc-btn" style="cursor:pointer">Import JSON<input type="file" id="importFile" accept="application/json,.json" hidden></label>
+    </div>
+    <div class="kc-hub-list" id="list"></div>
+    <p class="kc-hub-note">Local only for now — comments are stored in <code>localStorage</code> on this device. They will not appear for the client until we connect shared storage and publish.</p>
+  </div>
+</main>
+<script>
+(() => {
+  const KEY = 'kalos-v2-comments';
+  const listEl = document.getElementById('list');
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch { return []; }
+  }
+  function save(items) { localStorage.setItem(KEY, JSON.stringify(items)); }
+
+  function formatTime(iso) {
+    try {
+      return new Date(iso).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    } catch { return ''; }
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function render() {
+    const items = load().slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    if (!items.length) {
+      listEl.innerHTML = '<div class="kc-hub-empty">No comments yet. Open a prototype page, tap the comment bubble (bottom right), then click anywhere to leave a note.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((c) => `
+      <a class="kc-hub-card ${c.resolved ? 'is-resolved' : ''}" href="${escapeHtml(c.page)}" data-id="${escapeHtml(c.id)}">
+        <div class="kc-hub-top"><span>${escapeHtml(c.author)}</span><span>${formatTime(c.createdAt)}</span></div>
+        <div class="kc-hub-page">${escapeHtml(c.pageTitle || c.page)}</div>
+        <strong>${escapeHtml(c.text)}</strong>
+      </a>
+    `).join('');
+    listEl.querySelectorAll('a[data-id]').forEach((a) => {
+      a.addEventListener('click', () => {
+        sessionStorage.setItem('kalos-v2-open-comment', a.getAttribute('data-id'));
+        localStorage.setItem('kalos-v2-comments-show', '1');
+      });
+    });
+  }
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(load(), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `kalos-v2-comments-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    if (!confirm('Delete all local comments?')) return;
+    save([]);
+    render();
+  });
+
+  document.getElementById('importFile').addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (!Array.isArray(data)) throw new Error('Invalid file');
+      save(data);
+      render();
+    } catch {
+      alert('Could not import that JSON file.');
+    }
+    e.target.value = '';
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
