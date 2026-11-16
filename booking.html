@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find Your Stay | Kalos Dwellings</title>
+<meta name="description" content="Discover thoughtfully selected vacation homes in Nashville and along 30A. Explore the Kalos Dwellings collection and plan your next extraordinary escape.">
+<meta name="theme-color" content="#efede9">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="booking.css"><script src="app.js" defer></script>
+<link rel="stylesheet" href="header.css">
+<link rel="stylesheet" href="property.css">
+<link rel="stylesheet" href="agreement.css">
+<link rel="stylesheet" href="reservation.css">
+<link rel="stylesheet" href="checkout.css">
+<link rel="stylesheet" href="filter-dropdowns.css">
+</head>
+<body class="book-page site-menu" data-booking-page="true">
+<a class="skip" href="#bookingContent">Skip to content</a>
+<header class="header">
+<a href="/" class="brand" aria-label="Kalos Dwellings home"><img src="assets/booking-logo.png" width="131" height="115" alt="Kalos Dwellings"></a>
+<nav aria-label="Main navigation" id="nav"><button data-book>Book now</button><button data-destination="Nashville">Nashville</button><button data-destination="30A">30A</button><button data-destination="Hadley's Beach">Hadley's Beach</button><a href="/#management">Property management</a><button data-info="contact">Contact us</button><button data-info="owner">Owner portal</button></nav>
+<div class="header-tools"><button class="icon" id="motion" aria-label="Pause animations" title="Pause animations">Ⅱ</button><button class="icon menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">☰</button></div>
+</header>
+<main id="booking" class="booking booking-page"><div class="booking-search-region"><form id="searchForm" class="search-bar">
+<div class="search-item date-wrap"><span class="field-title">When</span><button class="field-value" type="button" id="dateToggle" aria-haspopup="dialog" aria-controls="datePop" aria-expanded="false"><svg class="search-field-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="17" rx="1"/><path d="M8 2v5m8-5v5M4 10h16M9 10v12m6-12v12M4 14h16M4 18h16"/></svg><span id="dateLabel">Add dates</span><span>⌄</span></button><div class="date-pop range-picker" id="datePop" role="dialog" aria-label="Choose arrival and departure dates" hidden><input type="hidden" id="checkIn"><input type="hidden" id="checkOut"><div id="rangeCalendar"></div></div></div>
+<label class="search-item"><span class="field-title">Bedrooms</span><select id="bedrooms" aria-label="Bedrooms"><option value="0">Any number</option><option value="2">2+ bedrooms</option><option value="3">3+ bedrooms</option><option value="4">4+ bedrooms</option></select></label>
+<label class="search-item"><span class="field-title">Guests</span><input id="guests" type="hidden" value="2"></label>
+<label class="search-item"><span class="field-title">Location</span><select id="location" aria-label="Vacation destination"><option value="All">All locations</option><option>30A</option><option>Nashville</option><option>Hadley's Beach</option></select></label>
+<button class="pill" type="submit">Search <span>↗</span></button>
+</form></div><div class="booking-progress" id="bookingProgress"></div><div class="booking-content" id="bookingContent"></div></main><footer id="contact"><img class="footer-logo" src="assets/footerlogo.png" alt="Kalos Dwellings" loading="lazy"><div><h3>Quick links</h3><button data-book>Book now</button><button data-destination="Nashville">Nashville</button><button data-destination="30A">30A</button><button data-destination="Hadley's Beach">Hadley's Beach</button><a href="/#management">Property management</a><button data-info="contact">Contact us</button><button data-info="privacy">Privacy policy</button><button data-info="cancellation">Cancellation policy</button><button data-info="careers">Careers</button></div><div><h3>Contact us</h3><p>Kalos Dwellings<br>923 Oldham Drive<br>PO Box 951<br>Nolensville, TN 37135</p><button data-info="contact">Email us ↗</button></div><div class="newsletter"><h3>E-newsletter signup</h3><form id="newsletter"><label class="sr-only" for="newsletterEmail">Email address</label><input id="newsletterEmail" type="email" placeholder="Email address" required><button type="submit">Sign up ↗</button></form><p id="newsletterStatus" role="status"></p></div><div class="footer-bottom"><span>© <span id="year"></span> Kalos Dwellings</span><span>A vacation beyond compare.</span></div></footer>
+<dialog id="info" class="info-dialog"><button class="icon close-info" aria-label="Close dialog">✕</button><div id="infoContent"></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+</body></html>

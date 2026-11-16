@@ -1,0 +1,29 @@
+/* Shared reservation interface for every Kalos property. */
+.property-page .property-reservation{border:1px solid var(--ink);border-radius:18px;padding:26px;background:#f6f4ee;box-shadow:0 10px 32px #231f2008;position:relative}
+.reservation-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 26px}.property-reservation .reservation-top .price{font-size:31px;margin:0;white-space:nowrap}.reservation-top .price small{font-size:13px;color:var(--muted)}.reservation-rating{font-size:13px;white-space:nowrap}.reservation-rating small{color:var(--muted);font-size:10px}
+.property-reservation .form-grid{gap:0;border:1px solid var(--ink);border-radius:10px;margin:0 0 22px;overflow:visible}.property-reservation .property-date-field{gap:4px;padding:17px 12px;font-size:10px}.property-reservation .property-date-field:first-child{border-right:1px solid var(--ink)}.property-reservation .property-date-field button{border:0;border-radius:0;padding:2px 0;min-height:28px;font-size:14px;white-space:nowrap}.property-reservation .form-grid .full{padding:17px 12px;border-top:1px solid var(--ink);margin:0;letter-spacing:1.5px;text-transform:uppercase;font-size:10px;gap:5px;display:flex;flex-direction:column}.property-reservation .form-grid .select-toggle{border:0;border-radius:0;padding:2px 0;background:transparent;font-size:14px;min-height:28px;text-transform:none;letter-spacing:0;box-shadow:none}.property-reservation .form-grid .kalos-select{width:100%}
+.property-reservation .reserve-primary{width:100%;border-radius:40px;margin:0 0 12px;padding:18px;font-size:12px;letter-spacing:2px}.property-reservation .cost-calculator-button{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--ink);border-radius:40px;padding:16px;text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.cost-calculator-button:hover{background:#c2a35422}.cost-calculator-button>span{font-size:20px}.property-reservation .reservation-reassurance{text-align:center;font-size:11px;color:var(--muted);margin:12px 0 22px}.reservation-policy{border-top:1px solid var(--line);padding-top:20px;font-size:11px;line-height:1.8;margin-bottom:12px}.property-reservation .property-card-inquire{display:inline;margin:0;padding:0;border:0;font-size:10px}.reservation-preview{display:block;color:var(--muted);font-size:9px;line-height:1.7}.property-reservation #detailPrices>.booking-note{display:none}.property-reservation .price-breakdown{font-size:11px;margin-bottom:20px}.property-reservation .form-error:empty{display:none}
+.reservation-alerts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:14px;padding:17px 8px;border:1px solid var(--ink);border-radius:14px;background:#f6f4ee}.reservation-alerts button{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:19px;padding:0 10px;text-align:left;text-transform:uppercase;font-size:8px;letter-spacing:1px;line-height:1.65;min-width:0}.reservation-alerts button+button{border-left:1px solid var(--ink)}.reservation-alerts button>span:last-child{font-size:25px;line-height:1}.reservation-alerts button:hover{color:#92742e}
+@media(max-width:1100px) and (min-width:851px){.property-body{grid-template-columns:minmax(0,1fr) 340px;gap:4%}.property-page .property-reservation{padding:20px}.reservation-rating{font-size:11px}}
+@media(max-width:850px){.property-page .property-reservation{max-width:550px;margin:auto}.reservation-alerts{max-width:550px;margin:14px auto 0}.reservation-alerts button{font-size:10px;padding:0 14px}.property-booking-column{padding-bottom:15px}}
+@media(max-width:380px){.property-page .property-reservation{padding:19px}.reservation-top{gap:6px}.property-reservation .reservation-top .price{font-size:27px}.reservation-rating{font-size:11px}.reservation-alerts button{font-size:8px;padding:0 8px}}
+@media(min-width:851px){.property-booking-column{top:min(125px,calc(100dvh - var(--reservation-height,1080px) - 20px))}}
+.property-page .property-reservation{top:auto}
+/* Put the reservation before Stay Highlights on mobile property pages. */
+@media(max-width:850px){.property-body>.property-booking-column{order:-1;padding-top:24px;padding-bottom:8px}}
+
+/* Keep the property booking card in the normal page flow. */
+.property-page .property-booking-column{position:static;top:auto}
+
+/* Split-cost lightbox follows the reference with Kalos type and accents. */
+.cost-dialog{padding:0;width:min(850px,calc(100% - 32px));max-width:850px;border-radius:22px}
+.cost-dialog #infoContent{padding:0 34px 30px}
+.cost-dialog #infoContent>h2{padding:28px 40px 26px 0;margin:0 0 26px;border-bottom:1px solid var(--line);font-size:29px;letter-spacing:2px}
+.cost-dialog .close-info{right:22px;top:22px}
+.cost-dialog .cost-intro{font-size:15px;line-height:1.85;margin-bottom:12px}
+.cost-dialog .cost-breakdown{border:1px solid var(--ink);border-radius:12px;padding:22px;margin:24px 0 28px}
+.cost-dialog .cost-breakdown>p{margin:0}
+.cost-dialog .cost-split-row{grid-template-columns:1fr 180px 1.2fr;gap:22px;padding:26px 0}
+.cost-dialog .cost-stepper button{width:42px;height:42px}
+.cost-dialog .split-result strong{font-size:24px}
+@media(max-width:580px){.cost-dialog #infoContent{padding:0 22px 24px}.cost-dialog #infoContent>h2{font-size:23px;padding-top:25px}.cost-dialog .cost-intro{font-size:13px}.cost-dialog .cost-split-row{grid-template-columns:1fr 150px;gap:16px}.cost-dialog .split-result{grid-column:1/-1}.cost-dialog .split-result strong{font-size:21px}}
