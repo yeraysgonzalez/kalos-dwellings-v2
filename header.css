@@ -47,6 +47,18 @@
 .site-menu .header.header-scrolled:not(.header-hidden){box-shadow:0 4px 20px #231f2010}
 @media(prefers-reduced-motion:reduce){.site-menu .header{transition:none}}
 
+/* Search results: main menu scrolls away with the search bar (filter bar sticks instead). */
+.book-page.site-menu[data-step=results] .header,
+.book-page.site-menu[data-step=results] .header.header-hidden,
+.book-page.site-menu[data-step=results] .header.header-scrolled{
+  position:relative;
+  top:auto;
+  transform:none;
+  box-shadow:none;
+  pointer-events:auto;
+  will-change:auto;
+}
+
 .guest-field{position:relative;min-width:0}.guest-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 0 10px;font-size:12px;text-align:left}.guest-toggle[aria-expanded=true] svg{transform:rotate(180deg)}
 .guest-picker{position:absolute;top:calc(100% + 22px);left:50%;transform:translateX(-50%);width:370px;max-width:calc(100vw - 32px);padding:12px 24px 20px;background:var(--ivory);border:1px solid var(--line);border-radius:22px;box-shadow:0 15px 45px #231f2025;z-index:60;color:var(--ink)}
 .guest-picker[hidden]{display:none}.guest-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:20px 0;border-bottom:1px solid var(--line)}.guest-row-title{font-size:12px;text-transform:uppercase;letter-spacing:1.6px}.guest-row small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.guest-stepper{display:flex;align-items:center;gap:12px}.guest-stepper button{width:36px;height:36px;border:1px solid #a99c80;border-radius:50%;display:grid;place-items:center;font-size:23px;font-weight:300;padding:0;line-height:1}.guest-stepper button:hover:not(:disabled){background:var(--gold);border-color:var(--gold)}.guest-stepper button:disabled{opacity:.28;cursor:default}.guest-stepper output{min-width:18px;text-align:center;font-size:14px}.guest-note{font-size:10px;line-height:1.6;margin:15px 0}.guest-done{width:100%;padding:12px 20px!important;font-size:10px!important}.guest-field:has(.guest-picker:not([hidden])){z-index:65}

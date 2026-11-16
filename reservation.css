@@ -7,13 +7,23 @@
 @media(max-width:1100px) and (min-width:851px){.property-body{grid-template-columns:minmax(0,1fr) 340px;gap:4%}.property-page .property-reservation{padding:20px}.reservation-rating{font-size:11px}}
 @media(max-width:850px){.property-page .property-reservation{max-width:550px;margin:auto}.reservation-alerts{max-width:550px;margin:14px auto 0}.reservation-alerts button{font-size:10px;padding:0 14px}.property-booking-column{padding-bottom:15px}}
 @media(max-width:380px){.property-page .property-reservation{padding:19px}.reservation-top{gap:6px}.property-reservation .reservation-top .price{font-size:27px}.reservation-rating{font-size:11px}.reservation-alerts button{font-size:8px;padding:0 8px}}
-@media(min-width:851px){.property-booking-column{top:min(125px,calc(100dvh - var(--reservation-height,1080px) - 20px))}}
 .property-page .property-reservation{top:auto}
 /* Put the reservation before Stay Highlights on mobile property pages. */
-@media(max-width:850px){.property-body>.property-booking-column{order:-1;padding-top:24px;padding-bottom:8px}}
+@media(max-width:850px){.property-body>.property-booking-column{order:-1;padding-top:24px;padding-bottom:8px;position:static;top:auto}}
 
-/* Keep the property booking card in the normal page flow. */
-.property-page .property-booking-column{position:static;top:auto}
+/* Sticky booking card: sits below the menu when it reappears (push, don’t cover). */
+@media(min-width:851px){
+  .property-page .property-booking-column{
+    position:sticky;
+    top:var(--booking-sticky-top,0px);
+    padding-top:var(--booking-sticky-gap,36px);
+    align-self:start;
+    transition:top .3s ease;
+  }
+}
+@media(min-width:851px) and (prefers-reduced-motion:reduce){
+  .property-page .property-booking-column{transition:none}
+}
 
 /* Split-cost lightbox follows the reference with Kalos type and accents. */
 .cost-dialog{padding:0;width:min(850px,calc(100% - 32px));max-width:850px;border-radius:22px}

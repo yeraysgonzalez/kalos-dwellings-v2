@@ -1,0 +1,254 @@
+/* Property Management page — homepage visual language, dedicated content layout */
+
+.pm-page .header nav a[aria-current="page"]{border-bottom-color:var(--gold);color:var(--ink)}
+
+/* Keep Property by name the same width as homepage / booking */
+.pm-page .property-by-name,
+.pm-page .property-select{width:225px}
+
+/* Shared two-column content rows + square media */
+.pm-hero,
+.pm-who,
+.pm-specialize,
+.pm-boutique,
+.pm-begin{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(28px,4vw,56px);
+  align-items:center;
+  box-sizing:border-box;
+}
+
+.pm-hero-media,
+.pm-who-media,
+.pm-specialize-media,
+.pm-boutique-media,
+.pm-begin-media{
+  position:relative;
+  width:100%;
+  aspect-ratio:1 / 1;
+  border-radius:22px;
+  overflow:hidden;
+}
+
+.pm-hero-media img,
+.pm-who-media img,
+.pm-specialize-media img,
+.pm-boutique-media img,
+.pm-begin-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.pm-hero{
+  padding-top:36px;
+  padding-bottom:56px;
+}
+.pm-hero-copy,
+.pm-specialize-copy,
+.pm-boutique-copy{
+  position:relative;
+  z-index:2;
+  max-width:34rem;
+  justify-self:start;
+  padding-right:clamp(20px,3.5vw,48px);
+}
+.pm-hero-copy h1{font-size:clamp(28px,3vw,48px)}
+.pm-hero-sub{
+  margin:0 0 22px;
+  font-size:12px;
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.pm-hero-copy>p{font-size:13px;max-width:none}
+.pm-hero-copy .inline-links{margin-top:28px;gap:25px}
+.pm-hero-copy .gold-mark{width:130%;height:160%;top:-55%;left:-28%}
+.pm-hero-media{justify-self:stretch}
+.pm-hero-media img{object-position:center 28%}
+
+.pm-who{
+  padding-top:56px;
+  padding-bottom:56px;
+  gap:clamp(40px,6vw,80px);
+}
+.pm-who-media{justify-self:stretch}
+.pm-who-media img{object-position:center}
+.pm-who-copy{
+  position:relative;
+  z-index:2;
+  max-width:34rem;
+  justify-self:start;
+}
+.pm-who-copy p{font-size:13px;max-width:none}
+
+/* Same left inset for every right-side copy column */
+.pm-who-copy,
+.pm-begin-copy{
+  position:relative;
+  z-index:2;
+  max-width:34rem;
+  justify-self:start;
+  padding-left:clamp(20px,3.5vw,48px);
+}
+
+.pm-specialize{
+  padding-top:56px;
+  padding-bottom:96px;
+}
+.pm-specialize-copy>p{font-size:13px;max-width:none}
+.pm-specialize-media{justify-self:stretch}
+.pm-specialize-media img{object-position:center center}
+
+.pm-list{
+  list-style:none;
+  margin:28px 0 0;
+  padding:0;
+  max-width:none;
+}
+.pm-list li{
+  position:relative;
+  padding:0 0 22px 22px;
+  font-size:13px;
+  line-height:1.85;
+  color:var(--ink);
+}
+.pm-list li:last-child{padding-bottom:0}
+.pm-list li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:.85em;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold);
+}
+
+.pm-page .featured[hidden]{display:none!important}
+
+.pm-boutique{
+  padding-top:72px;
+  padding-bottom:88px;
+  gap:clamp(40px,6vw,80px);
+}
+.pm-boutique-copy .inline-links{margin-top:35px}
+.pm-boutique-media{justify-self:stretch}
+.pm-boutique-media img{object-position:center}
+
+/* Reviews section mirrors homepage testimonials (fixed image + slider). */
+.pm-page .reviews-image{
+  background-image:url("assets/pm-reviews-office.jpg");
+  background-position:center 35%;
+  background-size:cover;
+  image-rendering:auto;
+}
+.pm-page .testimonials{
+  /* Room for the hanging quote card before the next section */
+  margin-bottom:140px;
+}
+
+.pm-begin{
+  padding-top:56px;
+  padding-bottom:88px;
+  gap:clamp(40px,6vw,80px);
+}
+.pm-begin-copy p{font-size:13px;max-width:none}
+.pm-begin-media{justify-self:stretch}
+.pm-begin-cta-note{
+  margin-top:8px;
+  margin-bottom:28px;
+  font-size:12px;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.pm-begin-media{justify-self:stretch}
+.pm-begin-media img{object-position:center center}
+
+.inline-links a{
+  padding:6px 0;
+  border-bottom:1px solid #9e9586;
+  font-size:10px;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+@media(max-width:1200px){
+  .pm-page .property-by-name,
+  .pm-page .property-select{width:225px}
+}
+
+@media(max-width:850px){
+  .pm-hero,
+  .pm-who,
+  .pm-specialize,
+  .pm-boutique,
+  .pm-begin{
+    grid-template-columns:1fr;
+    min-height:0;
+    gap:28px;
+    padding-top:40px;
+    padding-bottom:40px;
+  }
+  .pm-hero-copy,
+  .pm-who-copy,
+  .pm-specialize-copy,
+  .pm-boutique-copy,
+  .pm-begin-copy{max-width:none}
+  .pm-who-copy,
+  .pm-begin-copy{padding-left:0}
+  .pm-hero-copy,
+  .pm-specialize-copy,
+  .pm-boutique-copy{padding-right:0}
+  .pm-hero-media,
+  .pm-who-media,
+  .pm-specialize-media,
+  .pm-boutique-media,
+  .pm-begin-media{
+    width:min(100%,520px);
+    justify-self:center;
+  }
+  /* Image-first stack for sections that lead with media on desktop */
+  .pm-hero-media,
+  .pm-boutique-media{order:-1}
+  /* Extra air before reviews / before footer */
+  .pm-specialize{padding-bottom:56px}
+  .pm-begin{padding-bottom:72px}
+  .pm-page .testimonials{padding-top:64px;padding-bottom:64px}
+  .pm-page .property-by-name,
+  .pm-page .property-select{width:180px}
+  .pm-page .inline-links{gap:18px;flex-wrap:wrap}
+}
+
+@media(max-width:580px){
+  .pm-hero,
+  .pm-who,
+  .pm-specialize,
+  .pm-boutique,
+  .pm-begin{
+    gap:22px;
+    padding-top:32px;
+    padding-bottom:32px;
+  }
+  .pm-specialize{padding-bottom:48px}
+  .pm-begin{padding-bottom:56px}
+  .pm-hero-media,
+  .pm-who-media,
+  .pm-specialize-media,
+  .pm-boutique-media,
+  .pm-begin-media{
+    width:100%;
+    border-radius:16px;
+  }
+  .pm-page .testimonials{padding-top:48px;padding-bottom:48px}
+  .pm-page .inline-links{gap:16px}
+  .inline-links a,
+  .inline-links button{font-size:9px}
+  .pm-page .property-by-name,
+  .pm-page .property-select{width:124px}
+  .pm-list li{padding-bottom:18px;font-size:12px}
+}
