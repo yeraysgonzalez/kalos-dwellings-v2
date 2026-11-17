@@ -103,9 +103,12 @@
       <div class="kc-backdrop" data-kc-backdrop hidden></div>
       <aside class="kc-panel" data-kc-panel aria-hidden="true">
         <div class="kc-panel-head">
-          <div>
+          <div class="kc-panel-head-copy">
             <h2>Review comments</h2>
-            <p>Comments on this page only.</p>
+            <label>
+              <span class="sr-only">Pages with comments</span>
+              <select class="kc-page-select" data-kc-page-select aria-label="Pages with comments"></select>
+            </label>
           </div>
           <button type="button" class="kc-close" data-kc-close-panel aria-label="Close panel">×</button>
         </div>
@@ -142,6 +145,7 @@
     state.banner = root.querySelector('[data-kc-banner]');
     state.tab = root.querySelector('[data-kc-tab]');
     state.tools = root.querySelector('[data-kc-tools]');
+    state.pageSelect = root.querySelector('[data-kc-page-select]');
 
     state.tab.addEventListener('click', () => setToolsOpen(!toolsOpen));
     state.fab.addEventListener('click', () => setPlacing(!placing));
@@ -149,6 +153,7 @@
     root.querySelector('[data-kc-close-panel]').addEventListener('click', () => setPanel(false));
     state.backdrop.addEventListener('click', () => setPanel(false));
     state.layer.addEventListener('click', onLayerClick);
+    state.pageSelect.addEventListener('change', onPageSelectChange);
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -161,7 +166,7 @@
     });
   }
 
-  function setToolsOpen(on) {
+  function setToolsOpen(on, opts = {}) {
     toolsOpen = on;
     state.tools.hidden = !on;
     state.tab.classList.toggle('is-open', on);
@@ -183,8 +188,15 @@
         state.panelBtn.classList.remove('is-on');
       }
       openId = null;
+      render();
+      return;
     }
-    render();
+    // Opening Comment mode: pencil is active by default unless restoring the review panel
+    if (opts.panel) {
+      setPanel(true);
+      return;
+    }
+    setPlacing(true);
   }
 
   function setPlacing(on) {
@@ -230,11 +242,45 @@
     render();
   }
 
-  function pageComments() {
-    const key = pageKey();
+  function pageComments(key = pageKey()) {
     return loadComments()
       .filter((c) => c.page === key)
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  function pagesWithComments() {
+    const map = new Map();
+    loadComments().forEach((c) => {
+      if (!map.has(c.page)) {
+        map.set(c.page, {
+          page: c.page,
+          title: c.pageTitle || pageLabel(c.page),
+          count: 0,
+        });
+      }
+      map.get(c.page).count += 1;
+    });
+    const current = pageKey();
+    if (!map.has(current)) {
+      map.set(current, { page: current, title: pageLabel(current), count: 0 });
+    }
+    return [...map.values()].sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  function onPageSelectChange(e) {
+    const next = e.target.value;
+    if (!next || next === pageKey()) return;
+    sessionStorage.setItem('kalos-v2-restore', JSON.stringify({ tools: true, panel: true }));
+    location.href = next;
+  }
+
+  function renderPageSelect() {
+    if (!state.pageSelect) return;
+    const current = pageKey();
+    const pages = pagesWithComments();
+    state.pageSelect.innerHTML = pages.map((p) => (
+      `<option value="${escapeHtml(p.page)}" ${p.page === current ? 'selected' : ''}>${escapeHtml(p.title)} (${p.count})</option>`
+    )).join('');
   }
 
   function updateLayerSize() {
@@ -319,9 +365,10 @@
   }
 
   function renderPanel() {
+    renderPageSelect();
     const items = pageComments();
     if (!items.length) {
-      state.list.innerHTML = `<div class="kc-empty">No comments on this page yet. Turn on comment mode and click anywhere to leave one.</div>`;
+      state.list.innerHTML = `<div class="kc-empty">No comments on this page yet. Use the pencil to leave one, or pick another page above.</div>`;
       return;
     }
     state.list.innerHTML = items.map((c) => `
@@ -477,6 +524,18 @@
     ensureRoot();
     patchHistory();
     render();
+
+    try {
+      const raw = sessionStorage.getItem('kalos-v2-restore');
+      if (raw) {
+        sessionStorage.removeItem('kalos-v2-restore');
+        const data = JSON.parse(raw);
+        if (data.tools && data.panel) setToolsOpen(true, { panel: true });
+        else if (data.tools) setToolsOpen(true);
+      }
+    } catch {
+      sessionStorage.removeItem('kalos-v2-restore');
+    }
 
     const pending = sessionStorage.getItem('kalos-v2-open-comment');
     if (pending) {

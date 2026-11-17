@@ -159,7 +159,16 @@ body.kc-annotate-root{position:relative}
   display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
 }
 .kc-panel-head h2{margin:0;font-size:15px;letter-spacing:.04em;font-weight:560}
-.kc-panel-head p{margin:6px 0 0;font-size:12px;color:var(--kc-muted);line-height:1.5}
+.kc-panel-head-copy{display:grid;gap:10px;min-width:0;flex:1}
+.kc-page-select{
+  width:100%;max-width:100%;appearance:none;-webkit-appearance:none;
+  border:1px solid var(--kc-line);border-radius:10px;background-color:#fff;
+  background-image:linear-gradient(45deg,transparent 50%,var(--kc-muted) 50%),linear-gradient(135deg,var(--kc-muted) 50%,transparent 50%);
+  background-position:calc(100% - 16px) calc(50% - 2px),calc(100% - 11px) calc(50% - 2px);
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  padding:9px 28px 9px 12px;font:inherit;font-size:12px;color:var(--kc-ink);cursor:pointer;
+}
+.kc-page-select:focus{outline:none;border-color:var(--kc-accent)}
 .kc-close{
   border:0;background:transparent;padding:4px;margin:0;cursor:pointer;
   color:var(--kc-ink);line-height:1;font-size:22px;font-weight:400;
