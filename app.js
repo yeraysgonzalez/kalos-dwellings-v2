@@ -181,7 +181,7 @@ let bookingView='split',priceMin=0,priceMax=1000,propertyType='',amenityFilter='
 const homeTypes={'blue-crab':'House','rooftop':'Villa','hadleys':'Beach house'};
 function bookingURL(next){const params=new URLSearchParams();for(const [k,v] of Object.entries(trip))if(v!==''&&v!==null)params.set(k,v);if(collection)params.set('collection',collection);params.set('step',next==='trip'?'results':next);if(next==='detail')params.set('property',chosen.id);return 'booking.html?'+params.toString()}
 function openBooking(next='results'){if(!isBookingPage){location.href=bookingURL(next);return}stage=next==='trip'?'results':next;renderBooking()}
-function closeBooking(){location.href='/'}
+function closeBooking(){location.href='index.html'}
 function updateBookingURL(){if(!isBookingPage)return;const url=new URL(location.href);for(const [k,v] of Object.entries(trip)){if(v!=='')url.searchParams.set(k,v);else url.searchParams.delete(k)}url.searchParams.set('step',stage);if(['detail','agreement','insurance','guests','review','confirmation'].includes(stage))url.searchParams.set('property',chosen.id);else url.searchParams.delete('property');if(collection)url.searchParams.set('collection',collection);else url.searchParams.delete('collection');if(url.href!==location.href)history.pushState({stage},'',url)}
 $('#searchForm').onsubmit=e=>{e.preventDefault();captureSearch();collection='';openBooking(validTrip()?'results':'trip')};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-book],[data-destination],[data-property],[data-collection],[data-info]');if(!b)return;
