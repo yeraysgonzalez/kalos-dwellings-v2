@@ -399,6 +399,15 @@
       .replace(/"/g, '&quot;');
   }
 
+  function tipBelow(xPct, yPct) {
+    updateLayerSize();
+    const rect = state.layer.getBoundingClientRect();
+    const layerH = state.layer.offsetHeight || rect.height || 1;
+    const pinScreenY = rect.top + (yPct / 100) * layerH;
+    // If the pin is near the top of the viewport, open the tooltip below
+    return pinScreenY < 240;
+  }
+
   function renderPins() {
     const visible = placing || panelOpen || !!openId || !!draft;
     state.layer.hidden = !visible;
@@ -416,8 +425,9 @@
     if (openId) {
       const c = comments.find((x) => x.id === openId);
       if (c) {
+        const below = tipBelow(c.x, c.y) ? ' kc-below' : '';
         html += `
-          <div class="kc-bubble" style="left:${c.x}%;top:${c.y}%" data-kc-bubble>
+          <div class="kc-bubble${below}" style="left:${c.x}%;top:${c.y}%" data-kc-bubble>
             <div class="kc-bubble-meta">
               <strong>${escapeHtml(c.author)}</strong>
               <time>${formatTime(c.createdAt)}</time>
@@ -434,9 +444,10 @@
     }
 
     if (draft) {
+      const below = tipBelow(draft.x, draft.y) ? ' kc-below' : '';
       html += `
         <button type="button" class="kc-pin is-open" style="left:${draft.x}%;top:${draft.y}%" tabindex="-1" aria-hidden="true"><span>+</span></button>
-        <form class="kc-composer" style="left:${draft.x}%;top:${draft.y}%" data-kc-composer>
+        <form class="kc-composer${below}" style="left:${draft.x}%;top:${draft.y}%" data-kc-composer>
           <h3>New comment</h3>
           <label for="kcAuthor">Name</label>
           <input id="kcAuthor" name="author" type="text" value="${escapeHtml(getAuthor())}" placeholder="Your name" required>
