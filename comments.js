@@ -214,10 +214,7 @@
         state.backdrop.hidden = true;
         state.panelBtn.classList.remove('is-on');
       }
-      if (!getAuthor()) {
-        const name = window.prompt('Your name for comments', 'Reviewer') || 'Reviewer';
-        setAuthor(name);
-      }
+      // Name is collected in the composer — avoid blocking prompt() so clicks work immediately
     } else {
       draft = null;
     }
@@ -403,10 +400,10 @@
   }
 
   function renderPins() {
-    updateLayerSize();
     const visible = placing || panelOpen || !!openId || !!draft;
     state.layer.hidden = !visible;
     state.layer.classList.toggle('kc-layer-active', placing);
+    updateLayerSize();
 
     const comments = pageComments();
     let html = comments.map((c, i) => `
@@ -442,7 +439,7 @@
         <form class="kc-composer" style="left:${draft.x}%;top:${draft.y}%" data-kc-composer>
           <h3>New comment</h3>
           <label for="kcAuthor">Name</label>
-          <input id="kcAuthor" name="author" type="text" value="${escapeHtml(getAuthor() || 'Reviewer')}" required>
+          <input id="kcAuthor" name="author" type="text" value="${escapeHtml(getAuthor())}" placeholder="Your name" required>
           <label for="kcText">Comment</label>
           <textarea id="kcText" name="text" placeholder="What should we look at here?" required></textarea>
           <div class="kc-composer-actions">

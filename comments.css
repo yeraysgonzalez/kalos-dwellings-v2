@@ -18,20 +18,25 @@ body.kc-placing .kc-root *{cursor:auto !important}
 body.kc-placing .kc-layer{pointer-events:auto}
 
 .kc-root{
-  position:fixed;inset:0;z-index:2147483000;pointer-events:none;
+  /* Do not cover the viewport — a full-screen overlay blocks pin placement */
+  position:fixed;left:0;top:0;width:0;height:0;overflow:visible;
+  z-index:2147483000;pointer-events:none;
   font-family:Poppins,'Century Gothic',Arial,sans-serif;
   color:var(--kc-ink);
 }
 .kc-root button{font:inherit}
 .kc-root *{box-sizing:border-box}
+.kc-root .kc-backdrop,
+.kc-root .kc-panel,
+.kc-root .kc-dock{pointer-events:auto}
 
 /* Body is the positioning context so pins scroll with the page */
 body.kc-annotate-root{position:relative}
 .kc-layer{
   position:absolute;left:0;top:0;width:100%;min-height:100%;pointer-events:none;
-  z-index:2147482000;
+  z-index:2147482500;
 }
-.kc-layer.kc-layer-active{pointer-events:auto}
+.kc-layer.kc-layer-active{pointer-events:auto !important}
 
 .kc-pin{
   position:absolute;width:34px;height:34px;margin:-34px 0 0 -17px;
