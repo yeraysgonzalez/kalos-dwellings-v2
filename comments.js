@@ -551,12 +551,20 @@
       resizeTimer = setTimeout(render, 120);
     });
 
-    // Keep layer height in sync with late-loading images / booking stage changes
-    const mo = new MutationObserver(() => {
-      if (!state.layer || state.layer.hidden) return;
-      updateLayerSize();
-    });
-    mo.observe(document.body, { childList: true, subtree: true, attributes: true });
+    // Keep layer height in sync with late-loading content (avoid attributes —
+    // updating layer style must not re-trigger the observer).
+    let layerSyncQueued = false;
+    const syncLayer = () => {
+      if (!state.layer || state.layer.hidden || layerSyncQueued) return;
+      layerSyncQueued = true;
+      requestAnimationFrame(() => {
+        layerSyncQueued = false;
+        updateLayerSize();
+      });
+    };
+    const mo = new MutationObserver(syncLayer);
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('load', syncLayer);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
